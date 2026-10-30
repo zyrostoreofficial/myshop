@@ -1,46 +1,83 @@
 {%- comment -%}
-  sections/hero-banner.liquid
-  Split hero: text on one side, arch-shaped image on the other.
+  sections/hero-banner.liquid  (v2: full-width image hero)
+  Big image fills the section, text sits at the bottom over a soft dark gradient.
   Everything is editable from Theme Editor > Customize.
 {%- endcomment -%}
 
 {%- style -%}
   #hero-{{ section.id }} {
-    --hero-bg: {{ section.settings.bg_color }};
-    --hero-text: {{ section.settings.text_color }};
-    --hero-btn-bg: {{ section.settings.button_bg }};
-    --hero-btn-text: {{ section.settings.button_text }};
-    background: var(--hero-bg);
+    --hero-text: {{ section.settings.content_color }};
+    --hero-btn-bg: {{ section.settings.cta_bg }};
+    --hero-btn-text: {{ section.settings.cta_text }};
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: {{ section.settings.height }}vh;
+    min-height: {{ section.settings.height }}svh;
+    overflow: hidden;
+    background: #1f2a24;
     color: var(--hero-text);
-    padding: {{ section.settings.padding_top | times: 0.6 | round }}px 0 {{ section.settings.padding_bottom | times: 0.6 | round }}px;
+  }
+
+  #hero-{{ section.id }} .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  #hero-{{ section.id }} .hero__media img,
+  #hero-{{ section.id }} .hero__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #hero-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, {{ section.settings.overlay | divided_by: 100.0 }}) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
   }
 
   #hero-{{ section.id }} .hero__inner {
-    display: grid;
-    gap: 2.5rem;
-    align-items: center;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 4rem 1.5rem 3rem;
+    text-align: {{ section.settings.align }};
   }
 
   #hero-{{ section.id }} .hero__heading {
     font-family: var(--font-heading-family, inherit);
-    font-size: clamp(2.5rem, 1.2rem + 5.5vw, 4.75rem);
+    font-size: clamp(2.75rem, 1rem + 7vw, 6rem);
     font-weight: 600;
-    line-height: 1.02;
-    letter-spacing: -0.02em;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
     margin: 0;
-    max-width: 14ch;
+    max-width: 13ch;
     text-wrap: balance;
+    {%- if section.settings.align == 'center' -%}
+      margin-left: auto;
+      margin-right: auto;
+    {%- endif -%}
   }
 
   #hero-{{ section.id }} .hero__text {
     font-size: 1.125rem;
     line-height: 1.6;
     margin: 1.25rem 0 0;
-    max-width: 44ch;
-    opacity: 0.85;
+    max-width: 46ch;
+    {%- if section.settings.align == 'center' -%}
+      margin-left: auto;
+      margin-right: auto;
+    {%- endif -%}
   }
 
   #hero-{{ section.id }} .hero__actions {
@@ -49,11 +86,14 @@
     align-items: center;
     gap: 1rem 1.75rem;
     margin-top: 2rem;
+    {%- if section.settings.align == 'center' -%}
+      justify-content: center;
+    {%- endif -%}
   }
 
   #hero-{{ section.id }} .hero__button {
     display: inline-block;
-    padding: 1rem 2rem;
+    padding: 1rem 2.25rem;
     border-radius: 999px;
     background: var(--hero-btn-bg);
     color: var(--hero-btn-text);
@@ -78,37 +118,8 @@
     outline-offset: 4px;
   }
 
-  #hero-{{ section.id }} .hero__media {
-    position: relative;
-    aspect-ratio: 4 / 5;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 999px 999px 28px 28px;
-    background: rgba(0, 0, 0, 0.06);
-  }
-
-  #hero-{{ section.id }} .hero__media img,
-  #hero-{{ section.id }} .hero__media svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   @media (min-width: 750px) {
-    #hero-{{ section.id }} {
-      padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
-    }
-    #hero-{{ section.id }} .hero__inner {
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 4rem;
-    }
-    {%- if section.settings.image_position == 'left' -%}
-      #hero-{{ section.id }} .hero__media { order: -1; }
-    {%- endif -%}
+    #hero-{{ section.id }} .hero__inner { padding: 6rem 3rem 4.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -118,48 +129,46 @@
 {%- endstyle -%}
 
 <section id="hero-{{ section.id }}" class="hero">
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          widths: '750, 1100, 1500, 1920, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.image.alt
+      }}
+    {%- else -%}
+      {{ 'hero-apparel-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
   <div class="hero__inner">
-    <div class="hero__content">
-      {%- if section.settings.heading != blank -%}
-        <h1 class="hero__heading">{{ section.settings.heading | escape }}</h1>
-      {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="hero__heading">{{ section.settings.heading | escape }}</h1>
+    {%- endif -%}
 
-      {%- if section.settings.text != blank -%}
-        <p class="hero__text">{{ section.settings.text | escape }}</p>
-      {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="hero__text">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
 
-      {%- if section.settings.button_label != blank or section.settings.link_label != blank -%}
-        <div class="hero__actions">
-          {%- if section.settings.button_label != blank -%}
-            <a class="hero__button" href="{{ section.settings.button_url | default: routes.all_products_collection_url }}">
-              {{- section.settings.button_label | escape -}}
-            </a>
-          {%- endif -%}
-          {%- if section.settings.link_label != blank -%}
-            <a class="hero__link" href="{{ section.settings.link_url | default: routes.collections_url }}">
-              {{- section.settings.link_label | escape -}}
-            </a>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    </div>
-
-    <div class="hero__media">
-      {%- if section.settings.image != blank -%}
-        {{
-          section.settings.image
-          | image_url: width: 1200
-          | image_tag:
-            widths: '480, 720, 960, 1200',
-            sizes: '(min-width: 750px) 40vw, 90vw',
-            loading: 'eager',
-            fetchpriority: 'high',
-            alt: section.settings.image.alt
-        }}
-      {%- else -%}
-        {{ 'hero-apparel-1' | placeholder_svg_tag }}
-      {%- endif -%}
-    </div>
+    {%- if section.settings.button_label != blank or section.settings.link_label != blank -%}
+      <div class="hero__actions">
+        {%- if section.settings.button_label != blank -%}
+          <a class="hero__button" href="{{ section.settings.button_url | default: routes.all_products_collection_url }}">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a class="hero__link" href="{{ section.settings.link_url | default: routes.collections_url }}">
+            {{- section.settings.link_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -209,7 +218,7 @@
     },
     {
       "type": "header",
-      "content": "Image"
+      "content": "Image and layout"
     },
     {
       "type": "image_picker",
@@ -217,14 +226,34 @@
       "label": "Image"
     },
     {
+      "type": "range",
+      "id": "height",
+      "label": "Height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Dark gradient strength",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
       "type": "select",
-      "id": "image_position",
-      "label": "Image position (desktop)",
+      "id": "align",
+      "label": "Text alignment",
       "options": [
-        { "value": "right", "label": "Right" },
-        { "value": "left", "label": "Left" }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
       ],
-      "default": "right"
+      "default": "left"
     },
     {
       "type": "header",
@@ -232,51 +261,21 @@
     },
     {
       "type": "color",
-      "id": "bg_color",
-      "label": "Background",
-      "default": "#E8EFE6"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
+      "id": "content_color",
       "label": "Text",
-      "default": "#14241C"
-    },
-    {
-      "type": "color",
-      "id": "button_bg",
-      "label": "Button background",
-      "default": "#14241C"
-    },
-    {
-      "type": "color",
-      "id": "button_text",
-      "label": "Button text",
       "default": "#FFFFFF"
     },
     {
-      "type": "header",
-      "content": "Spacing"
+      "type": "color",
+      "id": "cta_bg",
+      "label": "Button background",
+      "default": "#FFFFFF"
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Top padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 72
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 72
+      "type": "color",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "#14241C"
     }
   ],
   "presets": [
