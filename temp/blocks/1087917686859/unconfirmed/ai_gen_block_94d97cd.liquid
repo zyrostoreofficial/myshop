@@ -1,0 +1,102 @@
+{% doc %}
+  @prompt
+    animtead h2 heading, 200px width
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-animated-heading-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width }}px;
+    max-width: 100%;
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.alignment }};
+  }
+
+  .ai-animated-heading-{{ ai_gen_id }}__title {
+    margin: 0;
+    font-size: {{ block.settings.font_size }}px;
+    line-height: 1.15;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: ai-heading-reveal-{{ ai_gen_id }} 700ms ease-out forwards;
+  }
+
+  @keyframes ai-heading-reveal-{{ ai_gen_id }} {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-animated-heading-{{ ai_gen_id }}__title {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-animated-heading-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <h2 class="ai-animated-heading-{{ ai_gen_id }}__title">{{ block.settings.heading | escape }}</h2>
+</div>
+
+{% schema %}
+{
+  "name": "Animated H2 heading",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Discover something new"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width",
+      "label": "Desktop width",
+      "min": 100,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Animated H2 heading"
+    }
+  ],
+  "tag": null,
+  "class": "animated-h2-heading"
+}
+{% endschema %}
