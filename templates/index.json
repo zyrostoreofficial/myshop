@@ -12,20 +12,40 @@
   "sections": {
     "hero-banner": {
       "type": "hero-banner",
-      "settings": {}
+      "settings": {
+        "heading": "Fresh picks, delivered to your door.",
+        "text": "Browse the new arrivals and find something you will use every day.",
+        "button_label": "Shop new arrivals",
+        "button_url": "",
+        "link_label": "View all collections",
+        "link_url": "",
+        "animate": true,
+        "height": 70,
+        "overlay": 65,
+        "align": "left",
+        "content_color": "#ffffff",
+        "cta_bg": "#ffffff",
+        "cta_text": "#14241c"
+      }
     },
-    "product-showcase": {
+    "product_showcase_VByRtY": {
       "type": "product-showcase",
-      "settings": {}
-    },
-    "ecom-6ae35624d852a76d800c2565-home": {
-      "type": "ecom-6ae35624d852a76d800c2565-home",
-      "settings": {}
+      "name": "Product showcase",
+      "settings": {
+        "heading": "New arrivals",
+        "collection": "frontpage",
+        "link_label": "View all",
+        "limit": 8,
+        "columns": 4,
+        "bg_color": "#FFFFFF",
+        "text_color": "#14241C",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
     }
   },
   "order": [
     "hero-banner",
-    "product-showcase",
-    "ecom-6ae35624d852a76d800c2565-home"
+    "product_showcase_VByRtY"
   ]
 }
