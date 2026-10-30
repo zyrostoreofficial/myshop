@@ -1,14 +1,14 @@
 {%- comment -%}
-  sections/hero-banner.liquid  (v2: full-width image hero)
+  sections/hero-banner.liquid  (v3: full-width image hero)
   Big image fills the section, text sits at the bottom over a soft dark gradient.
-  Everything is editable from Theme Editor > Customize.
+  All class names start with "hb-" so they never clash with the theme's own hero styles.
 {%- endcomment -%}
 
 {%- style -%}
-  #hero-{{ section.id }} {
-    --hero-text: {{ section.settings.content_color }};
-    --hero-btn-bg: {{ section.settings.cta_bg }};
-    --hero-btn-text: {{ section.settings.cta_text }};
+  #hb-{{ section.id }} {
+    --hb-text: {{ section.settings.content_color }};
+    --hb-btn-bg: {{ section.settings.cta_bg }};
+    --hb-btn-text: {{ section.settings.cta_text }};
     position: relative;
     isolation: isolate;
     display: flex;
@@ -17,24 +17,24 @@
     min-height: {{ section.settings.height }}svh;
     overflow: hidden;
     background: #1f2a24;
-    color: var(--hero-text);
+    color: var(--hb-text);
   }
 
-  #hero-{{ section.id }} .hero__media {
+  #hb-{{ section.id }} .hb-media {
     position: absolute;
     inset: 0;
     z-index: -2;
   }
 
-  #hero-{{ section.id }} .hero__media img,
-  #hero-{{ section.id }} .hero__media svg {
+  #hb-{{ section.id }} .hb-media img,
+  #hb-{{ section.id }} .hb-media svg {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  #hero-{{ section.id }}::before {
+  #hb-{{ section.id }}::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -42,94 +42,97 @@
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, {{ section.settings.overlay | divided_by: 100.0 }}) 0%,
-      rgba(0, 0, 0, 0) 70%
+      rgba(0, 0, 0, 0) 85%
     );
   }
 
-  #hero-{{ section.id }} .hero__inner {
+  #hb-{{ section.id }} .hb-inner {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 4rem 1.5rem 3rem;
+    padding: 3rem clamp(1.25rem, 4vw, 4rem) 2.5rem;
     text-align: {{ section.settings.align }};
   }
 
-  #hero-{{ section.id }} .hero__heading {
+  #hb-{{ section.id }} .hb-heading {
     font-family: var(--font-heading-family, inherit);
-    font-size: clamp(2.75rem, 1rem + 7vw, 6rem);
+    font-size: clamp(2.25rem, 1rem + 4.2vw, 4.5rem);
     font-weight: 600;
-    line-height: 0.98;
-    letter-spacing: -0.025em;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     margin: 0;
-    max-width: 13ch;
+    max-width: 20ch;
     text-wrap: balance;
+    color: var(--hb-text);
     {%- if section.settings.align == 'center' -%}
       margin-left: auto;
       margin-right: auto;
     {%- endif -%}
   }
 
-  #hero-{{ section.id }} .hero__text {
+  #hb-{{ section.id }} .hb-text {
     font-size: 1.125rem;
     line-height: 1.6;
-    margin: 1.25rem 0 0;
+    margin: 1rem 0 0;
     max-width: 46ch;
+    color: var(--hb-text);
     {%- if section.settings.align == 'center' -%}
       margin-left: auto;
       margin-right: auto;
     {%- endif -%}
   }
 
-  #hero-{{ section.id }} .hero__actions {
+  #hb-{{ section.id }} .hb-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem 1.75rem;
-    margin-top: 2rem;
+    margin-top: 1.75rem;
     {%- if section.settings.align == 'center' -%}
       justify-content: center;
     {%- endif -%}
   }
 
-  #hero-{{ section.id }} .hero__button {
+  #hb-{{ section.id }} .hb-button {
     display: inline-block;
-    padding: 1rem 2.25rem;
+    padding: 0.95rem 2rem;
     border-radius: 999px;
-    background: var(--hero-btn-bg);
-    color: var(--hero-btn-text);
+    background: var(--hb-btn-bg);
+    color: var(--hb-btn-text);
     font-weight: 600;
     text-decoration: none;
     transition: transform 0.2s ease;
   }
 
-  #hero-{{ section.id }} .hero__button:hover { transform: translateY(-2px); }
+  #hb-{{ section.id }} .hb-button:hover { transform: translateY(-2px); }
 
-  #hero-{{ section.id }} .hero__link {
-    color: var(--hero-text);
+  #hb-{{ section.id }} .hb-more {
+    position: static;
+    color: var(--hb-text);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 0.3em;
     text-decoration-thickness: 2px;
   }
 
-  #hero-{{ section.id }} .hero__button:focus-visible,
-  #hero-{{ section.id }} .hero__link:focus-visible {
-    outline: 3px solid var(--hero-text);
+  #hb-{{ section.id }} .hb-button:focus-visible,
+  #hb-{{ section.id }} .hb-more:focus-visible {
+    outline: 3px solid var(--hb-text);
     outline-offset: 4px;
   }
 
   @media (min-width: 750px) {
-    #hero-{{ section.id }} .hero__inner { padding: 6rem 3rem 4.5rem; }
+    #hb-{{ section.id }} .hb-inner { padding-top: 5rem; padding-bottom: 4rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #hero-{{ section.id }} .hero__button { transition: none; }
-    #hero-{{ section.id }} .hero__button:hover { transform: none; }
+    #hb-{{ section.id }} .hb-button { transition: none; }
+    #hb-{{ section.id }} .hb-button:hover { transform: none; }
   }
 {%- endstyle -%}
 
-<section id="hero-{{ section.id }}" class="hero">
-  <div class="hero__media">
+<section id="hb-{{ section.id }}">
+  <div class="hb-media">
     {%- if section.settings.image != blank -%}
       {{
         section.settings.image
@@ -146,24 +149,24 @@
     {%- endif -%}
   </div>
 
-  <div class="hero__inner">
+  <div class="hb-inner">
     {%- if section.settings.heading != blank -%}
-      <h1 class="hero__heading">{{ section.settings.heading | escape }}</h1>
+      <h1 class="hb-heading">{{ section.settings.heading | escape }}</h1>
     {%- endif -%}
 
     {%- if section.settings.text != blank -%}
-      <p class="hero__text">{{ section.settings.text | escape }}</p>
+      <p class="hb-text">{{ section.settings.text | escape }}</p>
     {%- endif -%}
 
     {%- if section.settings.button_label != blank or section.settings.link_label != blank -%}
-      <div class="hero__actions">
+      <div class="hb-actions">
         {%- if section.settings.button_label != blank -%}
-          <a class="hero__button" href="{{ section.settings.button_url | default: routes.all_products_collection_url }}">
+          <a class="hb-button" href="{{ section.settings.button_url | default: routes.all_products_collection_url }}">
             {{- section.settings.button_label | escape -}}
           </a>
         {%- endif -%}
         {%- if section.settings.link_label != blank -%}
-          <a class="hero__link" href="{{ section.settings.link_url | default: routes.collections_url }}">
+          <a class="hb-more" href="{{ section.settings.link_url | default: routes.collections_url }}">
             {{- section.settings.link_label | escape -}}
           </a>
         {%- endif -%}
@@ -175,8 +178,6 @@
 {% schema %}
 {
   "name": "Hero banner",
-  "tag": "section",
-  "class": "section-hero",
   "settings": [
     {
       "type": "header",
@@ -233,7 +234,7 @@
       "max": 100,
       "step": 5,
       "unit": "vh",
-      "default": 80
+      "default": 70
     },
     {
       "type": "range",
@@ -243,7 +244,7 @@
       "max": 90,
       "step": 5,
       "unit": "%",
-      "default": 60
+      "default": 65
     },
     {
       "type": "select",
