@@ -121,6 +121,41 @@
     outline-offset: 4px;
   }
 
+  #hb-{{ section.id }} .hb-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0.1em 0 0.14em;
+    margin: -0.1em 0 -0.14em;
+  }
+
+  #hb-{{ section.id }} .hb-word__in { display: inline-block; }
+
+  @keyframes hb-rise {
+    from { transform: translateY(110%); }
+    to { transform: translateY(0); }
+  }
+
+  @keyframes hb-fade {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #hb-{{ section.id }}.hb-anim .hb-word__in {
+      transform: translateY(110%);
+      animation: hb-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      animation-delay: calc(var(--i) * 90ms + 150ms);
+    }
+    #hb-{{ section.id }}.hb-anim .hb-text,
+    #hb-{{ section.id }}.hb-anim .hb-actions {
+      opacity: 0;
+      animation: hb-fade 0.7s ease forwards;
+    }
+    #hb-{{ section.id }}.hb-anim .hb-text { animation-delay: calc(var(--hb-n) * 90ms + 350ms); }
+    #hb-{{ section.id }}.hb-anim .hb-actions { animation-delay: calc(var(--hb-n) * 90ms + 500ms); }
+  }
+
   @media (min-width: 750px) {
     #hb-{{ section.id }} .hb-inner { padding-top: 5rem; padding-bottom: 4rem; }
   }
@@ -131,7 +166,8 @@
   }
 {%- endstyle -%}
 
-<section id="hb-{{ section.id }}">
+{%- assign hb_words = section.settings.heading | escape | split: ' ' -%}
+<section id="hb-{{ section.id }}"{% if section.settings.animate %} class="hb-anim" style="--hb-n: {{ hb_words.size }}"{% endif %}>
   <div class="hb-media">
     {%- if section.settings.image != blank -%}
       {{
@@ -151,7 +187,15 @@
 
   <div class="hb-inner">
     {%- if section.settings.heading != blank -%}
-      <h1 class="hb-heading">{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.animate -%}
+        <h1 class="hb-heading" aria-label="{{ section.settings.heading | escape }}">
+          {%- for word in hb_words -%}
+            <span class="hb-word" aria-hidden="true"><span class="hb-word__in" style="--i: {{ forloop.index0 }}">{{ word }}</span></span>{{ ' ' }}
+          {%- endfor -%}
+        </h1>
+      {%- else -%}
+        <h1 class="hb-heading">{{ section.settings.heading | escape }}</h1>
+      {%- endif -%}
     {%- endif -%}
 
     {%- if section.settings.text != blank -%}
@@ -220,6 +264,12 @@
     {
       "type": "header",
       "content": "Image and layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "label": "Animate heading on load",
+      "default": true
     },
     {
       "type": "image_picker",
