@@ -1,1 +1,26 @@
-{"layout":"theme","sections":{"hero-banner":{"type":"hero-banner","settings":{}},"ecom-6ae35624d852a76d800c2565-home":{"type":"ecom-6ae35624d852a76d800c2565-home","settings":{}}},"order":["hero-banner","ecom-6ae35624d852a76d800c2565-home"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "theme",
+  "sections": {
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {}
+    },
+    "ecom-6ae35624d852a76d800c2565-home": {
+      "type": "ecom-6ae35624d852a76d800c2565-home",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero-banner",
+    "ecom-6ae35624d852a76d800c2565-home"
+  ]
+}

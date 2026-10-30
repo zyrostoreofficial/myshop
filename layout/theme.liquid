@@ -7,6 +7,7 @@
   dir="{{ request.locale.direction | default: 'ltr' }}"
 >
   <head>
+ {%- capture ecom_header_content -%}{%- render 'ecom_header' -%}{%- endcapture -%}{%- unless ecom_header_content contains 'Liquid error' -%}{{ ecom_header_content }}{%- endunless -%}
     {%- if settings.favicon != blank -%}
       <link
         rel="icon"
@@ -172,5 +173,5 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
-  </body>
+  {%- capture ecom_footer_content -%}{%- render 'ecom_footer' -%}{%- endcapture -%}{%- unless ecom_footer_content contains 'Liquid error' -%}{{ ecom_footer_content }}{%- endunless -%}</body>
 </html>
