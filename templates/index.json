@@ -14,6 +14,10 @@
       "type": "hero-banner",
       "settings": {}
     },
+    "product-showcase": {
+      "type": "product-showcase",
+      "settings": {}
+    },
     "ecom-6ae35624d852a76d800c2565-home": {
       "type": "ecom-6ae35624d852a76d800c2565-home",
       "settings": {}
@@ -21,6 +25,7 @@
   },
   "order": [
     "hero-banner",
+    "product-showcase",
     "ecom-6ae35624d852a76d800c2565-home"
   ]
 }
