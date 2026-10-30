@@ -10,22 +10,74 @@
 {
   "layout": "theme",
   "sections": {
-    "hero-banner": {
-      "type": "hero-banner",
+    "section_hpWGBL": {
+      "type": "section",
+      "blocks": {
+        "ai_gen_block_c1a4db3_cGjgF4": {
+          "type": "ai_gen_block_c1a4db3",
+          "settings": {
+            "heading": "Discover something new",
+            "desktop_width": 700,
+            "font_size": 48,
+            "alignment": "center",
+            "text_color": "#000000",
+            "show_shadow": true,
+            "shadow_color": "#777777",
+            "shadow_blur": 6
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_5bc9a61_CcByPD": {
+          "type": "ai_gen_block_5bc9a61",
+          "settings": {
+            "button_label": "Shop now",
+            "button_link": "",
+            "desktop_width": 200,
+            "alignment": "center",
+            "background_color": "#000000",
+            "text_color": "#FFFFFF",
+            "border_color": "#000000",
+            "focus_color": "#005FCC",
+            "font_size": 16,
+            "border_radius": 14,
+            "border_width": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_c1a4db3_cGjgF4",
+        "ai_gen_block_5bc9a61_CcByPD"
+      ],
+      "name": "t:names.custom_section",
       "settings": {
-        "heading": "Fresh picks, delivered to your door.",
-        "text": "Browse the new arrivals and find something you will use every day.",
-        "button_label": "Shop new arrivals",
-        "button_url": "",
-        "link_label": "View all collections",
-        "link_url": "",
-        "animate": true,
-        "height": 70,
-        "overlay": 65,
-        "align": "left",
-        "content_color": "#ffffff",
-        "cta_bg": "#ffffff",
-        "cta_text": "#14241c"
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 0,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "background_media": "image",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image": "shopify://shop_images/clothes-hangers-on-a-rail.jpg",
+        "background_image_position": "cover",
+        "toggle_overlay": true,
+        "overlay_color": "#FFFFFF6B",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "product_showcase_VByRtY": {
@@ -37,15 +89,15 @@
         "link_label": "View all",
         "limit": 8,
         "columns": 4,
-        "bg_color": "#FFFFFF",
-        "text_color": "#14241C",
+        "bg_color": "#ffffff",
+        "text_color": "#14241c",
         "padding_top": 72,
         "padding_bottom": 72
       }
     }
   },
   "order": [
-    "hero-banner",
+    "section_hpWGBL",
     "product_showcase_VByRtY"
   ]
 }
